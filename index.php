@@ -18,19 +18,28 @@ The project is styled using Tailwindcss and connect to a XAMPP database.-->
 
 <body>
     <!-- component -->
-    <div class="relative w-full">
+    <div class="relative w-full from-yellow-100 via-orange-300 to-red-500 bg-gradient-to-br">
         <?php include 'header.php'; ?>
-        <div class="relative bg-yellow-50">
+        <div class="relative">
             <div class="container m-auto px-6 pt-32 md:px-12 lg:pt-[4.8rem] lg:px-7">
                 <div class="flex items-center flex-wrap px-2 md:px-0">
                     <div class="relative lg:w-6/12 lg:py-24 xl:py-32">
-                        <h1 class="font-bold text-4xl text-yellow-900 md:text-5xl lg:w-10/12">La tua collezione di vinili, pronta per essere ammirata</h1>
+                        <h1 class="font-bold text-4xl text-yellow-900 md:text-5xl lg:w-10/12">
+                            <!-- recuperare il numero totale di dischi registrati -->
+                            <?php
+                            $sql = 'SELECT * FROM records';
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->execute();
+                            $totalRecords = $stmt->rowCount();
+                            echo "I tuoi " . $totalRecords . " dischi, pronti per essere ammirati";
+                            ?>
+                        </h1>
                         <!-- TODO: Form per poter inserire la ricerca di un vinile per artista, nome, anno -->
                         <form action="" class="w-full mt-12">
-                            <div class="relative flex p-1 rounded-full bg-white border border-yellow-200 shadow-md md:p-2">
-                                <input placeholder="Cerca per nome, artista, canzone..." class="w-full p-4 rounded-full" type="text">
-                                <button type="button" title="Start buying" class="ml-auto py-3 px-6 rounded-full text-center transition bg-gradient-to-b from-yellow-200 to-yellow-300 hover:to-red-300 active:from-yellow-400 focus:from-red-400 md:px-12">
-                                    <span class="hidden text-yellow-900 font-semibold md:block">
+                            <div class="relative flex p-1 rounded-full md:p-2 gap-3">
+                                <input placeholder="Cerca per nome, artista, canzone..." class="w-full p-4 rounded-full bg-white bg-opacity-50 " type="text">
+                                <button type="button" title="Start buying" class="ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12">
+                                    <span class="hidden text-white font-semibold md:block">
                                         Cerca
                                     </span>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 mx-auto text-yellow-900 md:hidden" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -39,9 +48,11 @@ The project is styled using Tailwindcss and connect to a XAMPP database.-->
                                 </button>
                             </div>
                         </form>
-                        <a href="#add-new-record">
-                            <button type="button" title="Start buying" class="mt-12 py-3 px-6 rounded-full text-center transition bg-gradient-to-b from-yellow-200 to-yellow-300 hover:to-red-300 active:from-yellow-400 focus:from-red-400 md:px-12">
-                                <span class="hidden text-yellow-900 font-semibold md:block">
+                        <!-- TODO: 
+                        Add filter to search -->
+                        <a href="add-new-record.php">
+                            <button type="button" title="Start buying" class="ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12">
+                                <span class="hidden text-white font-semibold md:block">
                                     Aggiungi un vinile
                                 </span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 mx-auto text-yellow-900 md:hidden" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
@@ -58,7 +69,7 @@ The project is styled using Tailwindcss and connect to a XAMPP database.-->
                 </div>
             </div>
         </div>
-
+        <!-- Catalog view -->
         <section class="my-20 py-10 bg-white-100">
             <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 <!-- TODO: Vinile da recuperare nel database. Creare una scheda per ogni vinile letto dalla query di ricerca -->
@@ -69,30 +80,32 @@ The project is styled using Tailwindcss and connect to a XAMPP database.-->
 
                 while ($row = $stmt->fetch()) {
                 ?>
-                    <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
-                        <a href="#">
+                    <article class="rounded-xl bg-white bg-opacity-50 shadow-xl hover:rounded-2xl p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+                        <a href="record.php?id=<?php echo $row['id'] ?>">
                             <div class="relative flex items-end overflow-hidden rounded-xl">
-                                <!-- TODO: aggiungere l'immagine di copertina del vinile -->
                                 <?php echo getAlbum(getArtistName($row['artist']), $row['title'], 3) ?>
                             </div>
 
                             <div class="mt-1 p-2">
                                 <?php
-                                echo '<h2 class="text-slate-700 capitalize">' . $row['title'] . '</h2>';
-                                echo '<p class="mt-1 text-sm text-slate-400 capitalize">' . getArtistName($row['artist']) . ' ~ ' . $row['year'] . '</p>';
+                                echo '<h2 class="text font-bold text-slate-700 capitalize">' . $row['title'] . '</h2>';
+                                echo '<p class="mt-1 text-sm text-slate-700 capitalize">' . getArtistName($row['artist']) . ' ~ ' . $row['year'] . '</p>';
                                 ?>
                             </div>
                         </a>
                     </article>
                 <?php
                 } ?>
+                <!-- TODO: Add pagination -->
         </section>
 
+        <!-- Add record section -->
+        <!-- <div id="add-new-record">
+            
+        </div> -->
+        <?php include 'footer.php'; ?>
     </div>
-    <div id="add-new-record">
-        <?php include 'add-new-record.php'; ?>
-    </div>
-    <?php include 'footer.php'; ?>
+
 </body>
 
 </html>

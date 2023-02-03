@@ -63,3 +63,11 @@ function getArtistName($artistId)
     return $row['name'];
 }
 
+// function getSongs($record){
+//     global $pdo;
+//     $sql = 'SELECT * FROM songs WHERE records = ?';
+//     $stmt = $pdo->prepare($sql);
+//     $stmt->execute([$record]);
+//     $row = $stmt->fetchAll();
+//     return $row;
+// }
