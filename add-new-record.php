@@ -34,8 +34,11 @@ if (isset($_POST['submit'])) {
     // header('Location: add-songs.php?numberOfSongs=' . $numberOfSongs . '&recordId=' . $pdo->lastInsertId() . '&artistId=' . $artistId);
   }
 
-  // andare alla pagina "add songs" passando come parametro number of songs
-  header('Location: add-songs.php?numberOfSongs=' . $numberOfSongs . '&recordId=' . $pdo->lastInsertId() . '&artistId=' . $artistId);
+  if (empty($numberOfSongs)) {
+    header('Location: index.php');
+  } else {
+    header('Location: add-songs.php?numberOfSongs=' . $numberOfSongs . '&recordId=' . $pdo->lastInsertId() . '&artistId=' . $artistId);
+  }
 
   
 }
@@ -48,11 +51,12 @@ if (isset($_POST['submit'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="https://img.icons8.com/external-flaticons-flat-flat-icons/64/null/external-vinyl-record-rage-room-flaticons-flat-flat-icons.png" />
   <title>Add new record</title>
 </head>
 
-<body>
-  <div class="relative w-full from-yellow-100 via-orange-300 to-red-500 bg-gradient-to-br">
+<body class="from-yellow-100 via-orange-300 to-red-500 bg-gradient-to-br">
+  <div class="relative w-full">
   <?php include 'header.php'; ?>
   <div class="relative w-full">
 
@@ -65,15 +69,15 @@ if (isset($_POST['submit'])) {
               <img src="resources/record.png" alt="record" class=" m-auto">
               <form action="" method="post" class="m-auto">
                 <label for="title">Titolo</label>
-                <input type="text" name="title" id="title" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
+                <input type="text" name="title" id="title" placeholder="Titolo dell'album" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
                 <label for="artist">Artista</label>
-                <input type="text" name="artist" id="artist" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
+                <input type="text" name="artist" id="artist" placeholder="Artista" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
                 <label for="year">Anno di pubblicazione</label>
-                <input type="text" name="year" id="year" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
+                <input type="text" name="year" id="year" placeholder="Anno di pubblicazione" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
                 <label for="label">Casa discografica</label>
-                <input type="text" name="label" id="label" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
+                <input type="text" name="label" id="label" placeholder="Casa discografica" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
                 <label for="genre">Genere</label>
-                <input type="text" name="genre" id="genre" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
+                <input type="text" name="genre" id="genre" placeholder="Genere" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
                 <label for="vinyl_condition">Condizioni del disco</label>
                 <select name="vinyl_condition" id="vinyl_condition" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2">
                   <option value="1">Mint</option>
@@ -105,10 +109,10 @@ if (isset($_POST['submit'])) {
                   <option value="3">78 RPM</option>
                 </select> <br>
                 <label for="notes">Note</label>
-                <textarea name="notes" id="notes" cols="30" rows="5" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"></textarea>
+                <textarea name="notes" id="notes" cols="30" rows="5" placeholder="Note" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"></textarea>
                 
                 <label for="numberOfSongs">Numero di tracce</label>
-                <input type="text" name="numberOfSongs" id="numberOfSongs" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
+                <input type="text" name="numberOfSongs" id="numberOfSongs" value="0" placeholder="Numero di tracce" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2"><br>
                 <!-- Add songs -->
                 <!-- TODO: add a cancel button -->
                 <input type="submit" name="submit" value="Aggiungi il disco" class="flex flex-row-reversed ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12 my-3">

@@ -52,8 +52,9 @@ function getAlbum($artist, $album, $size) {
                 $xml    = "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&artist={$artist}&album={$album}&api_key=50de305c4b68b677c3dc6976ecdf1c30";
                 $xml    = @file_get_contents($xml);
                 
+                // Artist lookup failed, return default image
                 if(!$xml) {
-                        return;  // Artist lookup failed.
+                        return '<img src="http://www.last.fm/static/images/album/default_medium.png" />';
                 }
                 
                 $xml = new SimpleXMLElement($xml);

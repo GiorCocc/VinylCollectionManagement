@@ -10,6 +10,11 @@ $sql = 'DELETE FROM records WHERE id = ?';
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id]);
 
+// delete the songs associated with the record
+$sql = 'DELETE FROM songs WHERE records = ?';
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$id]);
+
 // redirect to the index
 header('Location: index.php');
 ?>

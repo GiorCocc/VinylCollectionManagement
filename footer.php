@@ -2,17 +2,17 @@
 <html lang="it">
 
 <body>
-  <footer class="py-6  bg-white-200 text-gray-900">
+  <footer class="py-6 bg-white-200 text-gray-900">
     <div class="container px-6 mx-auto space-y-6 divide-y divide-gray-400 md:space-y-12 divide-opacity-50">
       <div class="grid justify-center  lg:justify-between">
-        <div class="flex flex-col self-center text-sm text-center md:block lg:col-start-1 md:space-x-6">
+        <div class="flex flex-col self-center text-sm text-center md:block lg:col-start-1 md:space-x-6 text-white">
           <?php
           echo "<span>Copyright ©" .  date("Y") . " Giorgio Coccapani </span>";
           ?>
           <!-- TODO: aggiungere la pagina di informazioni sul progetto -->
-          <a rel="noopener noreferrer" href="#">
+          <!-- <a rel="noopener noreferrer" href="#">
             <span>Informazioni</span>
-          </a>
+          </a> -->
         </div>
         <!-- <div class="flex justify-center pt-4 space-x-4 lg:pt-0 lg:col-end-13">
                     <a rel="noopener noreferrer" href="#" title="Email" class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 duration-150 text-gray-50">
