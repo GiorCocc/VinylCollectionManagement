@@ -4,6 +4,89 @@
 and the year of release. On top of the page, there is a searchbar that allow to find a record by its name, year, artist and songs
 The project is styled using Tailwindcss and connect to a XAMPP database.-->
 
+<!-- TODO: modificare i nomi degli elementi nel database in modo che siano capitalize -->
+<!-- TODO: modificare quando vengono inseriti dei dati in modo che questi vengano salvati come capitalize -->
+
+<?php
+require_once 'database-connection.php';
+function getAmountRecords($stmt)
+{
+    return $stmt->rowCount();
+}
+
+function getAllRecords()
+{
+    global $pdo;
+    $sql = 'SELECT * FROM records';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function prepareQuery($param, $click)
+{
+    global $pdo;
+
+    if (empty($param) || $param == ' ' || $param == '') {
+        $sql = 'SELECT records.id FROM records ORDER BY records.title LIMIT 10 OFFSET ?';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$click * 10]);
+        return $stmt;
+    }
+    // ottenere tutti gli album (se il parametro è il nome dell'artista) in ogni posizione
+    $sql1 = 'SELECT records.id FROM records, artists WHERE records.artist = artists.id AND artists.name LIKE ' . "'%" . $param . "%'";
+    // ottenere tutti gli album (se il parametro è il nome dell'album)
+    $sql2 = 'SELECT records.id FROM records WHERE records.title LIKE ' . "'%" . $param . "%'";
+    // ottenere tutti gli album (se il parametro è l'anno di uscita)
+    $sql3 = 'SELECT records.id FROM records WHERE records.year LIKE ' . "'%" . $param . "%'";
+    // ottenere tutti gli album (se il parametro è il nome della canzone)
+    $sql4 = 'SELECT records.id FROM records, songs WHERE records.id = songs.records AND songs.title LIKE ' . "'%" . $param . "%'";
+
+    // unisci i risultati delle query in un'unica query
+    $sql = $sql1 . ' UNION ' . $sql2 . ' UNION ' . $sql3 . ' UNION ' . $sql4 . ' LIMIT 10 OFFSET ?';
+
+    // ottieni i risultati
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$click * 10 ]);
+    return $stmt;
+}
+
+// funzione per ottenere i dati del record passando gli id contenuti in $stmt
+function getRecords($stmt, $click)
+{
+    global $pdo;
+    $row = $stmt->fetch();
+    if(!$row) {
+        return null;
+    }
+    $id = $row['id'];
+    $sql = 'SELECT * FROM records WHERE id = ?';
+    $stmt1 = $pdo->prepare($sql);
+    $stmt1->execute([$id]);
+    return $stmt1;
+}
+
+$click = $_GET['click'] ?? 0;
+$param = $_GET['param'] ?? '';
+$stmt = prepareQuery($param, $click);
+
+if (empty($param) || $param == ' ' || $param == '') {
+    $possibleSteps = ceil(getAllRecords() / 10);
+} else {
+    $possibleSteps = ceil(getAmountRecords($stmt) / 10);
+}
+
+
+if (isset($_GET['submit'])) {
+    $click = 0;
+    $param = $_GET['param'];
+    header("Location: index.php?click=$click&param=$param");
+}
+
+?>
+
+
+
 <html>
 
 <head>
@@ -28,10 +111,11 @@ The project is styled using Tailwindcss and connect to a XAMPP database.-->
                         <h1 class="font-bold text-4xl text-yellow-900 md:text-5xl lg:w-10/12">
                             <!-- recuperare il numero totale di dischi registrati -->
                             <?php
-                            $sql = 'SELECT * FROM records';
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute();
-                            $totalRecords = $stmt->rowCount();
+                            if(empty($param) || $param == ' ' || $param == '') {
+                                $totalRecords = getAllRecords();
+                            } else {
+                                $totalRecords = getAmountRecords($stmt);
+                            }
                             if ($totalRecords == 1) {
                                 echo "Il tuo " . $totalRecords . " disco, pronto per essere ammirato";
                             } else if ($totalRecords == 0) {
@@ -42,29 +126,13 @@ The project is styled using Tailwindcss and connect to a XAMPP database.-->
                             ?>
                         </h1>
                         <!-- TODO: Form per poter inserire la ricerca di un vinile per artista, nome, anno -->
-                        <form action="" class="w-full mt-12">
+                        <form action="" method="get" class="w-full mt-12">
                             <div class="relative flex p-1 rounded-full md:p-2 gap-3">
-                                <input placeholder="Cerca per nome, artista, canzone..." class="w-full p-4 rounded-full bg-white bg-opacity-50 " type="text">
-                                <button type="button" title="Start buying" class="ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12">
-                                    <div class="flex flex-row gap-5">
-                                        <!-- Search icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
-                                            <path stroke="currentColor" fill="currentColor" d="m19.475 20.15-6.25-6.25q-.75.625-1.725.975-.975.35-1.95.35-2.425 0-4.087-1.663Q3.8 11.9 3.8 9.5q0-2.4 1.663-4.063 1.662-1.662 4.062-1.662 2.4 0 4.075 1.662Q15.275 7.1 15.275 9.5q0 1.05-.375 2.025-.375.975-.975 1.65L20.2 19.45ZM9.55 14.225q1.975 0 3.35-1.362Q14.275 11.5 14.275 9.5T12.9 6.137q-1.375-1.362-3.35-1.362-2 0-3.375 1.362Q4.8 7.5 4.8 9.5t1.375 3.363q1.375 1.362 3.375 1.362Z" />
-                                        </svg>
-
-                                        <span class="hidden text-white font-semibold md:block">
-                                            Cerca
-                                        </span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 mx-auto text-yellow-900 md:hidden" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                        </svg>
-                                    </div>
-
-                                </button>
+                                <input id="param" placeholder="Cerca per nome, artista, canzone..." class="w-full p-4 rounded-full bg-white bg-opacity-50 " type="text" value="<?php echo $param; ?>" name="param">
+                                <input type="submit" value="Cerca" class="ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12">
                             </div>
                         </form>
-                        <!-- TODO: 
-                        Add filter to search -->
+                        <!-- TODO: Add filter to search -->
                         <a href="add-new-record.php">
                             <button type="button" title="Start buying" class="ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12">
                                 <div class="flex flex-row gap-5">
@@ -93,16 +161,21 @@ The project is styled using Tailwindcss and connect to a XAMPP database.-->
         <section class="my-20 py-10 bg-white-100">
             <div class="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                 <?php
-                $sql = 'SELECT * FROM records order by title';
-                $stmt = $pdo->query($sql);
-
-
-                while ($row = $stmt->fetch()) {
+                $i = $click;
+                while ($i < $totalRecords) {
+                    $stmt1 = getRecords($stmt, $i);
+                    if($stmt1 == null){
+                        break;
+                    }
+                    $row = $stmt1->fetch(PDO::FETCH_ASSOC);
+                    if ($row == null) {
+                        break;
+                    }
                 ?>
                     <article class="rounded-xl bg-white bg-opacity-50 shadow-xl hover:rounded-2xl p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
                         <a href="record.php?recordId=<?php echo $row['id'] ?>">
                             <div class="relative flex items-end overflow-hidden rounded-xl">
-                                <?php echo getAlbum(getArtistName($row['artist']), $row['title'], 3) ?>
+                                <?php echo getAlbum(getArtistName($row['artist']), $row['title'], 3); ?>
                             </div>
 
                             <div class="mt-1 p-2">
@@ -114,10 +187,34 @@ The project is styled using Tailwindcss and connect to a XAMPP database.-->
                         </a>
                     </article>
                 <?php
-                } ?>
+                    $i++;
+                }
 
-                <!-- TODO: Add pagination -->
+                ?>
             </div>
+            <div class="flex justify-center mt-5 gap-10">
+                <!-- Bottone per tornare indietro -->
+                <?php
+                if ($click > 0) {
+                    echo '<a href="index.php?click=' . ($click - 1) . '&param=' . $param . '" class="flex justify-center mt-5">'; ?>
+                    <button class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-full">
+                        Prev
+                    </button>
+                    </a>
+                <?php }
+                ?>
+                <!-- Bottone per andare avanti -->
+                <?php
+                if ($click < $possibleSteps - 1) {
+                    echo '<a href="index.php?click=' . ($click + 1) . '&param=' . $param . '" class="flex justify-center mt-5">'; ?>
+                    <button class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-full">
+                        Next
+                    </button>
+                    </a>
+                <?php }
+                ?>
+            </div>
+
 
         </section>
 

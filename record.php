@@ -168,11 +168,17 @@ function getSongs($id)
                   // echo '<p class="text-xs text-gray-900 font-semibold">Good</p>';
                   break;
                 case 5:
-                  echo "<div class=\"bg-black-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-gray-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Fair</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Fair</p>';
                   break;
+                  case 6:
+                    echo "<div class=\"bg-black-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                    echo '<span class="text-xs text-white-900 font-semibold">Disco: Poor</span>';
+                    echo "</div>";
+                    // echo '<p class="text-xs text-gray-900 font-semibold">Poor</p>';
+                    break;
               }
               ?>
               <?php
