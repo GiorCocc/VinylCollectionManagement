@@ -27,6 +27,15 @@ if (isset($_POST['submit'])) {
   if (checkRecord($title, $artistId)) {
     die('Record already exists');
   } else {
+    // capitalize the first letter of each word of each field
+    $title = ucwords($title);
+    $genre = ucwords($genre);
+    $notes = ucwords($notes);
+    $vinyl_condition = ucwords($vinyl_condition);
+    $sleeve_condition = ucwords($sleeve_condition);
+    $format = ucwords($format);
+    $speed = ucwords($speed);
+    
     $sql = 'INSERT INTO records (title, artist, year, label, genre, vinyl_condition, sleeve_condition, format, speed, notes, numberOfSongs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$title, $artistId, $year, $labelId, $genre, $vinyl_condition, $sleeve_condition, $format, $speed, $notes, $numberOfSongs]);

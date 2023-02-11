@@ -12,6 +12,7 @@ function checkArtist($artist)
     if ($row) {
         return $row['id'];
     } else {
+        $artist = ucwords($artist);
         $sql = 'INSERT INTO artists (name) VALUES (?)';
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$artist]);
@@ -45,6 +46,7 @@ function checkLabel($label)
     if ($row) {
         return $row['id'];
     } else {
+        $label = ucwords($label);
         $sql = 'INSERT INTO labels (name) VALUES (?)';
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$label]);
@@ -54,12 +56,12 @@ function checkLabel($label)
 
 function getRecordName($record_id)
 {
-  global $pdo;
-  $sql = 'SELECT title FROM records WHERE id = ?';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute([$record_id]);
-  $record = $stmt->fetch();
-  return $record['title'];
+    global $pdo;
+    $sql = 'SELECT title FROM records WHERE id = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$record_id]);
+    $record = $stmt->fetch();
+    return $record['title'];
 }
 
 // function to get artist name from artist id
@@ -206,37 +208,43 @@ function getNumberOfSongs($recordId, $artistId)
 
 function getSongsId($recordId, $artistId)
 {
-  global $pdo;
-  $sql = 'SELECT id FROM songs WHERE records = ? AND artist = ?';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute([$recordId, $artistId]);
-  $songsId = $stmt->fetchAll();
-  return $songsId;
+    global $pdo;
+    $sql = 'SELECT id FROM songs WHERE records = ? AND artist = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$recordId, $artistId]);
+    $songsId = $stmt->fetchAll();
+    return $songsId;
 }
 
 function countSongs($recordId, $artistId)
 {
-  global $pdo;
-  $sql = 'SELECT COUNT(*) FROM songs WHERE records = ? AND artist = ?';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute([$recordId, $artistId]);
-  $numberOfSongs = $stmt->fetch();
-  return $numberOfSongs;
+    global $pdo;
+    $sql = 'SELECT COUNT(*) FROM songs WHERE records = ? AND artist = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$recordId, $artistId]);
+    $numberOfSongs = $stmt->fetch();
+    return $numberOfSongs;
 }
 
 function updateSong($songId, $songTitle, $songDuration, $recordId, $artistId)
 {
-  global $pdo;
-  $sql = 'UPDATE songs SET title = ?, duration = ? WHERE id = ? AND records = ? AND artist = ?';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute([$songTitle, $songDuration, $songId, $recordId, $artistId]);
-  return $stmt->rowCount() > 0;
+    global $pdo;
+    $songTitle = ucwords($songTitle);
+    $songDuration = ucwords($songDuration);
+    
+    $sql = 'UPDATE songs SET title = ?, duration = ? WHERE id = ? AND records = ? AND artist = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$songTitle, $songDuration, $songId, $recordId, $artistId]);
+    return $stmt->rowCount() > 0;
 }
 
 function addSong($songTitle, $songDuration, $recordId, $artistId)
 {
-  global $pdo;
-  $sql = 'INSERT INTO songs (title, duration, records, artist) VALUES (?, ?, ?, ?)';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute([$songTitle, $songDuration, $recordId, $artistId]);
+    global $pdo;
+    $songTitle = ucwords($songTitle);
+    $songDuration = ucwords($songDuration);
+
+    $sql = 'INSERT INTO songs (title, duration, records, artist) VALUES (?, ?, ?, ?)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$songTitle, $songDuration, $recordId, $artistId]);
 }

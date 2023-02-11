@@ -31,6 +31,13 @@ if (isset($_POST['submit'])) {
   //   header('Location: index.php');
   // }
 
+  $newTitle = ucwords($newTitle);
+  $newGenre = ucwords($newGenre);
+  $newNotes = ucwords($newNotes);
+  $newVinylCondition = ucwords($newVinylCondition);
+  $newSleeveCondition = ucwords($newSleeveCondition);
+  $newFormat = ucwords($newFormat);
+  $newSpeed = ucwords($newSpeed);
 
   $sql = 'UPDATE records SET title = ?, artist = ?, year = ?, label = ?, genre = ?, vinyl_condition = ?, sleeve_condition = ?, format = ?, speed = ?, notes = ?, numberOfSongs = ? WHERE id = ?';
   $stmt = $pdo->prepare($sql);

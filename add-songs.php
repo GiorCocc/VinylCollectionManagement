@@ -14,6 +14,10 @@ if (isset($_POST['submit'])) {
   for ($i = 1; $i <= $numberOfSongs; $i++) {
     $song = $_POST['song' . $i];
     $duration = $_POST['duration' . $i];
+    // capitalize the first letter of each word of each field
+    $song = ucwords($song);
+    $duration = ucwords($duration);
+    
     $sql = 'INSERT INTO songs (records, artist, title, duration) VALUES (?, ?, ?, ?)';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$recordId, $artistId, $song, $duration]);

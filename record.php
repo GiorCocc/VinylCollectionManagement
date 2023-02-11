@@ -227,12 +227,12 @@ function getSongs($id)
           }
           ?>
         </div>
-        <h2 class="text-2xl w-full mx-auto font-semibold text-gray-900 mt-4">
+        <h2 class="text-2xl overscroll-auto w-full mx-auto font-semibold text-gray-900 mt-4">
           <?php if ($numberOfSongs == 0) echo "Non ci sono canzoni registrate per questo album";
           else echo "Canzoni"; ?>
         </h2>
         <?php if ($numberOfSongs > 0) { ?>
-          <table class="w-full">
+          <table class="w-full overscroll-auto max-h-1">
             <thead>
               <tr>
                 <th class="text-left text-gray-900 font-semibold"></th>
@@ -248,7 +248,7 @@ function getSongs($id)
               foreach ($songs as $song) {
                 echo "<tr>";
                 echo "<td class=\"text-left text-gray-900 font-semibold\">" . $i . "</td>";
-                echo "<td class=\"text-left text-gray-900 font-semibold\">" . $song['title'] . "</td>";
+                echo "<td class=\"text-left text-gray-900 font-semibold capitalize\">" . $song['title'] . "</td>";
                 echo "<td class=\"text-left text-gray-900 font-semibold\">" . $song['duration'] . "</td>";
                 echo "</tr>";
                 $i++;
@@ -280,7 +280,7 @@ function getSongs($id)
                 <p class="text-s">Modificare</p>
               </a>
               <!-- Pulsante "Elimina" per rimuovere l'elemento dal database -->
-              <a href="delete-record.php?<?php echo 'id=' . $row['id'] ?>" class="bg-red-500 shadow-lg shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
+              <a href="delete-record.php?<?php echo 'recordId=' . $row['id'] ?>" class="bg-red-500 shadow-lg shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
                 <!-- Trashcan icon -->
                 <svg stroke="currentColor" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                   <path d="M7.625 20q-.675 0-1.15-.475Q6 19.05 6 18.375V6H5V5h4v-.775h6V5h4v1h-1v12.375q0 .7-.462 1.163-.463.462-1.163.462ZM17 6H7v12.375q0 .275.175.45t.45.175h8.75q.25 0 .437-.188.188-.187.188-.437ZM9.8 17h1V8h-1Zm3.4 0h1V8h-1ZM7 6v13-.625Z" />
