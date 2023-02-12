@@ -4,6 +4,7 @@
 // include 'header.php';
 include 'database-connection.php';
 include 'functions.php';
+include 'index-functions.php';
 include 'lastfm-api.php';
 ?>
 
@@ -64,10 +65,8 @@ $numberOfSongs = $row['numberOfSongs'];
               </span>
             </a>
             <div class=" px-3 py-1 rounded-lg flex space-x-2 flex-row">
-              <div class="cursor-pointer text-center text-md justify-center items-center flex">
-
-
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <div class="text-center text-md justify-center items-center flex">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24" fill="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M5 21q-.825 0-1.413-.587Q3 19.825 3 19v-7q0-1.875.712-3.513.713-1.637 1.926-2.85 1.212-1.212 2.85-1.925Q10.125 3 12 3t3.513.712q1.637.713 2.85 1.925 1.212 1.213 1.925 2.85Q21 10.125 21 12v7q0 .825-.587 1.413Q19.825 21 19 21h-2q-.825 0-1.412-.587Q15 19.825 15 19v-4q0-.825.588-1.413Q16.175 13 17 13h2v-1q0-2.925-2.038-4.963Q14.925 5 12 5T7.038 7.037Q5 9.075 5 12v1h2q.825 0 1.412.587Q9 14.175 9 15v4q0 .825-.588 1.413Q7.825 21 7 21Z" />
                 </svg>
 
@@ -77,11 +76,7 @@ $numberOfSongs = $row['numberOfSongs'];
                   </p>
                 </span>
               </div>
-              <div class="cursor-pointer text-center text-md justify-center items-center flex">
-                <!-- <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" class="text-md">
-                  <path d="M512 0C229.248 0 0 229.248 0 512s229.248 512 512 512 512-229.248 512-512S794.752 0 512 0zM512 896c-212.992 0-384-171.008-384-384S299.008 128 512 128s384 171.008 384 384-171.008 384-384 384z"></path>
-                  <path d="M512 256c-106.496 0-192 85.504-192 192s85.504 192 192 192 192-85.504 192-192-85.504-192-192-192zM512 640c-70.592 0-128-57.408-128-128s57.408-128 128-128 128 57.408 128 128-57.408 128-128 128z"></path>
-                </svg> -->
+              <div class="text-center text-md justify-center items-center flex">
                 <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15 5.67363C17.3649 6.7971 19 9.2076 19 12M8.39241 18C6.35958 16.7751 5 14.5463 5 12M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -101,7 +96,7 @@ $numberOfSongs = $row['numberOfSongs'];
                   </p>
                 </span>
               </div>
-              <div class="cursor-pointer text-center text-md justify-center items-center flex">
+              <div class="text-center text-md justify-center items-center flex">
 
 
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -137,36 +132,36 @@ $numberOfSongs = $row['numberOfSongs'];
               <?php
               switch ($row['vinyl_condition']) {
                 case 1:
-                  echo "<div class=\"bg-green-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-green-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Mint</span>';
                   echo "</div>";
                   break;
                 case 2:
-                  echo "<div class=\"bg-yellow-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-yellow-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Near Mint</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Near Mint</p>';
                   break;
                 case 3:
-                  echo "<div class=\"bg-orange-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-orange-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Very Good</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Very Good</p>';
                   break;
                 case 4:
-                  echo "<div class=\"bg-red-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-red-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Good</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Good</p>';
                   break;
                 case 5:
-                  echo "<div class=\"bg-gray-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-gray-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Fair</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Fair</p>';
                   break;
                 case 6:
-                  echo "<div class=\"bg-black-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-black-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Poor</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Poor</p>';
@@ -176,30 +171,30 @@ $numberOfSongs = $row['numberOfSongs'];
               <?php
               switch ($row['sleeve_condition']) {
                 case 1:
-                  echo "<div class=\"bg-green-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-green-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Mint</span>';
                   echo "</div>";
                   break;
                 case 2:
-                  echo "<div class=\"bg-yellow-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-yellow-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Near Mint</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Near Mint</p>';
                   break;
                 case 3:
-                  echo "<div class=\"bg-orange-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-orange-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Very Good</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Very Good</p>';
                   break;
                 case 4:
-                  echo "<div class=\"bg-red-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-red-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Good</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Good</p>';
                   break;
                 case 5:
-                  echo "<div class=\"bg-black-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo "<div class=\"bg-black-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Fair</span>';
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Fair</p>';
@@ -223,37 +218,39 @@ $numberOfSongs = $row['numberOfSongs'];
           <?php if ($numberOfSongs == 0) echo "Non ci sono canzoni registrate per questo album";
           else echo "Canzoni"; ?>
         </h2>
-        <?php if ($numberOfSongs > 0) { ?>
-          <table class="w-full overscroll-auto max-h-1">
-            <thead>
-              <tr>
-                <th class="text-left text-gray-900 font-semibold"></th>
-                <th class="text-left text-gray-900 font-semibold">Titolo</th>
-                <th class="text-left text-gray-900 font-semibold">Durata</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Prendere tutte le canzoni salvate nella tabella songs che hanno lo stesso id dell'album visualizzato -->
-              <?php
-              $songs = getSongs($row['id']);
-              $i = 1;
-              foreach ($songs as $song) {
-                echo "<tr>";
-                echo "<td class=\"text-left text-gray-900 font-semibold\">" . $i . "</td>";
-                echo "<td class=\"text-left text-gray-900 font-semibold capitalize\">" . $song['title'] . "</td>";
-                echo "<td class=\"text-left text-gray-900 font-semibold\">" . $song['duration'] . "</td>";
-                echo "</tr>";
-                $i++;
-              }
-              ?>
-            </tbody>
-          </table>
-        <?php } ?>
+        <div class="max-h-64 overflow-auto">
+          <?php if ($numberOfSongs > 0) { ?>
+            <table class="w-full max-h-48 overflow-auto">
+              <thead>
+                <tr>
+                  <th class="text-left text-gray-900 font-semibold"></th>
+                  <th class="text-left text-gray-900 font-semibold">Titolo</th>
+                  <th class="text-left text-gray-900 font-semibold">Durata</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Prendere tutte le canzoni salvate nella tabella songs che hanno lo stesso id dell'album visualizzato -->
+                <?php
+                $songs = getSongs($row['id']);
+                $i = 1;
+                foreach ($songs as $song) {
+                  echo "<tr>";
+                  echo "<td class=\"text-left text-gray-900 font-semibold\">" . $i . "</td>";
+                  echo "<td class=\"text-left text-gray-900 font-semibold capitalize\">" . $song['title'] . "</td>";
+                  echo "<td class=\"text-left text-gray-900 font-semibold\">" . $song['duration'] . "</td>";
+                  echo "</tr>";
+                  $i++;
+                }
+                ?>
+              </tbody>
+            </table>
+          <?php } ?>
+        </div>
+
         <div>
           <!-- remove button and modify button -->
           <div class="flex flex-row-reverse space-x-2 align-right mt-10">
             <div class="flex flex-row space-x-2">
-              <!-- TODO: pagina di modifica dell'album -->
               <?php
               if ($numberOfSongs != 0) {
               ?>
@@ -266,7 +263,7 @@ $numberOfSongs = $row['numberOfSongs'];
                 </a>
               <?php } ?>
               <a href="modify-record.php?recordId=<?php echo $row['id'] ?>&artistId=<?php echo $row['artist'] ?>" class="bg-blue-500 shadow-lg shadow- shadow-blue-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                <svg stroke="currentColor" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                   <path d="M5.3 19h1.075l9.9-9.9L15.2 8.025l-9.9 9.9ZM18.425 8.375l-2.5-2.475 1.2-1.2q.3-.325.725-.325t.725.325l1.05 1.025q.3.3.3.725t-.3.725ZM17.7 9.1 6.8 20H4.3v-2.5L15.2 6.6Zm-1.975-.55-.525-.525L16.275 9.1Z" />
                 </svg>
                 <p class="text-s">Modificare</p>
@@ -274,7 +271,7 @@ $numberOfSongs = $row['numberOfSongs'];
               <!-- Pulsante "Elimina" per rimuovere l'elemento dal database -->
               <a href="delete-record.php?<?php echo 'recordId=' . $row['id'] ?>" class="bg-red-500 shadow-lg shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
                 <!-- Trashcan icon -->
-                <svg stroke="currentColor" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                   <path d="M7.625 20q-.675 0-1.15-.475Q6 19.05 6 18.375V6H5V5h4v-.775h6V5h4v1h-1v12.375q0 .7-.462 1.163-.463.462-1.163.462ZM17 6H7v12.375q0 .275.175.45t.45.175h8.75q.25 0 .437-.188.188-.187.188-.437ZM9.8 17h1V8h-1Zm3.4 0h1V8h-1ZM7 6v13-.625Z" />
                 </svg>
 
@@ -293,8 +290,36 @@ $numberOfSongs = $row['numberOfSongs'];
               </div> -->
           </div>
         </div>
+
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">
+          Altri album dell'artista
+        </h2>
+        <div class="flex flex-col max-h-96 overflow-auto overflow-auto max-h-30 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          <?php
+          // get all the records of the artist
+          global $pdo;
+          $stmt = $pdo->prepare("SELECT * FROM records WHERE artist = :artistId");
+          $stmt->execute(['artistId' => $row['artist']]);
+          $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          foreach ($records as $row) {
+          ?>
+            <article class="rounded-xl bg-white bg-opacity-50 shadow-xl hover:rounded-2xl p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+              <a href="record.php?recordId=<?php echo $row['id'] ?>" title="<?php echo $row['title'] ?>">
+                <div class="relative flex items-end overflow-hidden rounded-xl">
+                  <?php echo getAlbum(getArtistName($row['artist']), $row['title'], 2); ?>
+                </div>
+              </a>
+            </article>
+          <?php
+            $i++;
+          }
+          ?>
+        </div>
       </div>
     </div>
+
   </div>
   <?php include 'footer.php'; ?>
 </body>

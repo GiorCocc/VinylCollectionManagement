@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
                 </div>';
                     }
                     ?>
-                    <input type="submit" name="submit" value="Add record" class="flex flex-row-reversed ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12 my-3">
+                    <input type="submit" name="submit" value="Aggiungi canzoni" class="flex flex-row-reversed ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12 my-3">
                   </form>
                 </div>
               </div>
