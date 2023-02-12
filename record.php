@@ -9,22 +9,14 @@ include 'lastfm-api.php';
 
 <?php
 $id = $_GET['recordId'];
-$sql = 'SELECT * FROM records WHERE id = :id';
+$sql = 'SELECT * FROM records WHERE id = ' . $id;
 $stmt = $pdo->prepare($sql);
-$stmt->execute(['id' => $id]);
+$stmt->execute();
 $row = $stmt->fetch();
 
 $numberOfSongs = $row['numberOfSongs'];
 
-function getSongs($id)
-{
-  global $pdo;
-  $sql = 'SELECT * FROM songs WHERE records = :id';
-  $stmt = $pdo->prepare($sql);
-  $stmt->execute(['id' => $id]);
-  $songs = $stmt->fetchAll();
-  return $songs;
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,9 +48,9 @@ function getSongs($id)
             <?php echo '<h1 class="text-3xl font-semibold text-gray-900 capitalize">' . $row['title'] . '</h1>' ?>
           </div>
           <div class="flex items-center space-x-4 justify-between">
-            <div class="flex gap-3 space-y-1">
+            <a class="flex gap-3 space-y-1" href="index.php?artistId=<?php echo $row['artist'] ?>">
               <!-- TODO: fare in modo di mostrare la foto dell'artista -->
-              <div class="rounded-full h-8 w-8">
+              <div class="rounded-full my-auto h-8 w-8">
 
                 <?php echo getArtistPhoto(getArtistName($row['artist']), 3);
                 ?>
@@ -70,7 +62,7 @@ function getSongs($id)
                   <?php echo $row['year'] ?>
                 </p>
               </span>
-            </div>
+            </a>
             <div class=" px-3 py-1 rounded-lg flex space-x-2 flex-row">
               <div class="cursor-pointer text-center text-md justify-center items-center flex">
 
@@ -173,12 +165,12 @@ function getSongs($id)
                   echo "</div>";
                   // echo '<p class="text-xs text-gray-900 font-semibold">Fair</p>';
                   break;
-                  case 6:
-                    echo "<div class=\"bg-black-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
-                    echo '<span class="text-xs text-white-900 font-semibold">Disco: Poor</span>';
-                    echo "</div>";
-                    // echo '<p class="text-xs text-gray-900 font-semibold">Poor</p>';
-                    break;
+                case 6:
+                  echo "<div class=\"bg-black-500 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
+                  echo '<span class="text-xs text-white-900 font-semibold">Disco: Poor</span>';
+                  echo "</div>";
+                  // echo '<p class="text-xs text-gray-900 font-semibold">Poor</p>';
+                  break;
               }
               ?>
               <?php
