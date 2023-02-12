@@ -248,3 +248,13 @@ function addSong($songTitle, $songDuration, $recordId, $artistId)
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$songTitle, $songDuration, $recordId, $artistId]);
 }
+
+function getSongs($id)
+{
+  global $pdo;
+  $sql = 'SELECT * FROM songs WHERE records = :id';
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute(['id' => $id]);
+  $songs = $stmt->fetchAll();
+  return $songs;
+}
