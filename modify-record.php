@@ -4,9 +4,7 @@ require_once 'database-connection.php';
 require_once 'functions.php';
 require_once 'lastfm-api.php';
 
-// Get the record id
 $record_id = $_GET['recordId'];
-// Get the artist id
 $artist_id = $_GET['artistId'];
 
 if (isset($_POST['submit'])) {
@@ -26,11 +24,6 @@ if (isset($_POST['submit'])) {
   $artistId = checkArtist($newArtist);
   $labelId = checkLabel($newLabel);
 
-  // check if title, artist and label are not empty. If they are, redirect to the same page
-  // if (empty($title) || empty($artist) || empty($label)) {
-  //   header('Location: index.php');
-  // }
-
   $newTitle = ucwords($newTitle);
   $newGenre = ucwords($newGenre);
   $newNotes = ucwords($newNotes);
@@ -43,26 +36,25 @@ if (isset($_POST['submit'])) {
   $stmt = $pdo->prepare($sql);
   $stmt->execute([$newTitle, $artistId, $newYear, $labelId, $newGenre, $newVinylCondition, $newSleeveCondition, $newFormat, $newSpeed, $newNotes, $newNumberOfSongs, $record_id]);
 
-    if(empty($newNumberOfSongs) || $newNumberOfSongs == 0) {
-      // remove all songs from the database
-      $sql = 'DELETE FROM songs WHERE records = ? AND artist = ?';
-      $stmt = $pdo->prepare($sql);
-      $stmt->execute([$record_id, $artist_id]);
-      header('Location: record.php?recordId=' . $record_id);
-    } else if ($newNumberOfSongs == $oldNumberOfSongs) {
-      header('Location: record.php?recordId=' . $record_id);
-    } else if ($oldNumberOfSongs == 0 && $newNumberOfSongs > 0) {
-      header('Location: add-songs.php?numberOfSongs=' . $newNumberOfSongs . '&recordId=' . $record_id . '&artistId=' . $artist_id);
-    } else if($newNumberOfSongs < $oldNumberOfSongs) {
-      // remove songs from the database
-      $sql = 'DELETE FROM songs WHERE records = ? AND artist = ?;';
-      $stmt = $pdo->prepare($sql);
-      $stmt->execute([$record_id, $artist_id]);
-      header('Location: add-songs.php?numberOfSongs=' . $newNumberOfSongs . '&recordId=' . $record_id . '&artistId=' . $artist_id);
-    } 
-    else {
-      header('Location: modify-songs.php?numberOfSongs=' . $newNumberOfSongs . '&recordId=' . $record_id . '&artistId=' . $artist_id);
-    }
+  if (empty($newNumberOfSongs) || $newNumberOfSongs == 0) {
+    // remove all songs from the database
+    $sql = 'DELETE FROM songs WHERE records = ? AND artist = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$record_id, $artist_id]);
+    header('Location: record.php?recordId=' . $record_id);
+  } else if ($newNumberOfSongs == $oldNumberOfSongs) {
+    header('Location: record.php?recordId=' . $record_id);
+  } else if ($oldNumberOfSongs == 0 && $newNumberOfSongs > 0) {
+    header('Location: add-songs.php?numberOfSongs=' . $newNumberOfSongs . '&recordId=' . $record_id . '&artistId=' . $artist_id);
+  } else if ($newNumberOfSongs < $oldNumberOfSongs) {
+    // remove songs from the database
+    $sql = 'DELETE FROM songs WHERE records = ? AND artist = ?;';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$record_id, $artist_id]);
+    header('Location: add-songs.php?numberOfSongs=' . $newNumberOfSongs . '&recordId=' . $record_id . '&artistId=' . $artist_id);
+  } else {
+    header('Location: modify-songs.php?numberOfSongs=' . $newNumberOfSongs . '&recordId=' . $record_id . '&artistId=' . $artist_id);
+  }
 }
 ?>
 
@@ -97,7 +89,7 @@ if (isset($_POST['submit'])) {
                 $artist_id = $_GET['artistId'];
                 $record_id = $_GET['recordId'];
                 $artist_name = getArtistName($artist_id);
-                $record_name = getAlbumNameById($record_id);
+                $record_name = getRecordName($record_id);
                 echo '<div class="relative m-auto flex items-end overflow-hidden rounded-xl">';
                 echo getAlbum($artist_name, $record_name, 4);
                 echo '</div>';
@@ -277,16 +269,11 @@ if (isset($_POST['submit'])) {
 
                   <label for="numberOfSongs">Numero di tracce</label>
                   <input type="text" name="numberOfSongs" id="numberOfSongs" placeholder="Numero di tracce" class="w-full bg-white bg-opacity-50 rounded-xl border border-amber-500 px-3 py-2" value="<?php echo getRecordNumberOfSongs($record_id); ?>" required><br>
-                  <!-- Add songs -->
-                  <!-- TODO: add a cancel button -->
                   <input type="submit" name="submit" value="Salva" class="flex flex-row-reversed ml-auto py-3 px-6 rounded-full text-center transition bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white md:px-12 my-3">
                 </form>
               </div>
             </div>
           </div>
-
-
-
         </div>
       </div>
       <?php include 'footer.php'; ?>

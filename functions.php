@@ -54,6 +54,7 @@ function checkLabel($label)
     }
 }
 
+// function to get the record name from the record id
 function getRecordName($record_id)
 {
     global $pdo;
@@ -75,26 +76,24 @@ function getArtistName($artistId)
     return $row['name'];
 }
 
-function getAlbumNameById($recordId)
+function getRecord($recordId)
 {
     global $pdo;
     $sql = 'SELECT * FROM records WHERE id = ?';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$recordId]);
     $row = $stmt->fetch();
-    return $row['title'];
+    return $row;
 }
 
+// function to get the record year of release from the record id
 function getRecordYear($recordId)
 {
-    global $pdo;
-    $sql = 'SELECT * FROM records WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId]);
-    $row = $stmt->fetch();
+    $row = getRecord($recordId);
     return $row['year'];
 }
 
+// function to get the record label from the record id
 function getRecordLabel($recordId)
 {
     global $pdo;
@@ -105,77 +104,56 @@ function getRecordLabel($recordId)
     return $row['name'];
 }
 
+// function to get the record label id from the record id
 function getRecordGenre($recordId)
 {
-    global $pdo;
-    $sql = 'SELECT * FROM records WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId]);
-    $row = $stmt->fetch();
+    $row = getRecord($recordId);
     return $row['genre'];
 }
 
+// function to get the record vinyl condition from the record id
 function getRecordVinylCondition($recordId)
 {
-    global $pdo;
-    $sql = 'SELECT * FROM records WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId]);
-    $row = $stmt->fetch();
+    $row = getRecord($recordId);
     return $row['vinyl_condition'];
 }
 
+// function to get the record sleeve condition from the record id
 function getRecordSleeveCondition($recordId)
 {
-    global $pdo;
-    $sql = 'SELECT * FROM records WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId]);
-    $row = $stmt->fetch();
+    $row = getRecord($recordId);
     return $row['sleeve_condition'];
 }
 
+// function to get the record format from the record id
 function getRecordFormat($recordId)
 {
-    global $pdo;
-    $sql = 'SELECT * FROM records WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId]);
-    $row = $stmt->fetch();
+    $row = getRecord($recordId);
     return $row['format'];
 }
 
+// function to get the record speed from the record id
 function getRecordSpeed($recordId)
 {
-    global $pdo;
-    $sql = 'SELECT * FROM records WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId]);
-    $row = $stmt->fetch();
+    $row = getRecord($recordId);
     return $row['speed'];
 }
 
+// function to get the record notes from the record id
 function getRecordNotes($recordId)
 {
-    global $pdo;
-    $sql = 'SELECT * FROM records WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId]);
-    $row = $stmt->fetch();
+    $row = getRecord($recordId);
     return $row['notes'];
 }
 
+// function to get the record number of songs from the record id
 function getRecordNumberOfSongs($recordId)
 {
-    global $pdo;
-    $sql = 'SELECT * FROM records WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId]);
-    $row = $stmt->fetch();
+    $row = getRecord($recordId);
     return $row['numberOfSongs'];
 }
 
-// function to get the record song
+// function to get the record song title 
 function getRecordSong($recordId, $artistId, $step)
 {
     global $pdo;
@@ -186,6 +164,7 @@ function getRecordSong($recordId, $artistId, $step)
     return $row['title'];
 }
 
+// function to get the record song duration
 function getRecordSongDuration($recordId, $artistId, $step)
 {
     global $pdo;
@@ -196,6 +175,7 @@ function getRecordSongDuration($recordId, $artistId, $step)
     return $row['duration'];
 }
 
+// function to get the number of songs of a particular record
 function getNumberOfSongs($recordId, $artistId)
 {
     global $pdo;
@@ -206,6 +186,7 @@ function getNumberOfSongs($recordId, $artistId)
     return count($row);
 }
 
+// function to get the song id
 function getSongsId($recordId, $artistId)
 {
     global $pdo;
@@ -216,16 +197,7 @@ function getSongsId($recordId, $artistId)
     return $songsId;
 }
 
-function countSongs($recordId, $artistId)
-{
-    global $pdo;
-    $sql = 'SELECT COUNT(*) FROM songs WHERE records = ? AND artist = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$recordId, $artistId]);
-    $numberOfSongs = $stmt->fetch();
-    return $numberOfSongs;
-}
-
+// function to update the song informations
 function updateSong($songId, $songTitle, $songDuration, $recordId, $artistId)
 {
     global $pdo;
@@ -238,6 +210,7 @@ function updateSong($songId, $songTitle, $songDuration, $recordId, $artistId)
     return $stmt->rowCount() > 0;
 }
 
+// function to add a song
 function addSong($songTitle, $songDuration, $recordId, $artistId)
 {
     global $pdo;
@@ -249,6 +222,7 @@ function addSong($songTitle, $songDuration, $recordId, $artistId)
     $stmt->execute([$songTitle, $songDuration, $recordId, $artistId]);
 }
 
+// function to get all the songs of a particular record
 function getSongs($id)
 {
   global $pdo;
@@ -257,4 +231,15 @@ function getSongs($id)
   $stmt->execute(['id' => $id]);
   $songs = $stmt->fetchAll();
   return $songs;
+}
+
+// function to check if a song already exists
+function checkSong($songTitle, $recordId, $artistId)
+{
+    global $pdo;
+    $sql = 'SELECT * FROM songs WHERE title = ? AND records = ? AND artist = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$songTitle, $recordId, $artistId]);
+    $row = $stmt->fetch();
+    return $row ? true : false;
 }

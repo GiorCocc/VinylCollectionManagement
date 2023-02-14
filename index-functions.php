@@ -1,10 +1,12 @@
 <?php
 
+// function to get the amount of records of an artist
 function getAmountRecords($stmt)
 {
     return $stmt->rowCount();
 }
 
+// function to get the get the amount of records in the database
 function getAllRecords()
 {
     global $pdo;
@@ -14,6 +16,7 @@ function getAllRecords()
     return $stmt->rowCount();
 }
 
+// function to set the order filter for the query
 function orderOption($orderOption)
 {
     switch ($orderOption) {
@@ -32,6 +35,7 @@ function orderOption($orderOption)
     }
 }
 
+// function to setup the search query 
 function prepareQuery($param, $click, $orderOption)
 {
     global $pdo;
@@ -60,7 +64,7 @@ function prepareQuery($param, $click, $orderOption)
     return $stmt;
 }
 
-// funzione per ottenere i dati del record passando gli id contenuti in $stmt
+// function get the records from the query
 function getRecords($stmt, $orderOption)
 {
     global $pdo;
@@ -75,6 +79,7 @@ function getRecords($stmt, $orderOption)
     return $stmt1;
 }
 
+// function to setup the title of the homepage
 function titleText($totalRecords, $click, $param)
 {
     if ($click == 0 && $param == '') {
@@ -111,6 +116,7 @@ function titleText($totalRecords, $click, $param)
     } else return "I tuoi " . $totalRecords . " dischi, pronti per essere ammirati";
 }
 
+// function to get a random record title
 function randomRecord()
 {
     global $pdo;
@@ -121,6 +127,7 @@ function randomRecord()
     return $row['title'];
 }
 
+// function to get the latest inserted record
 function latestInsered()
 {
     global $pdo;
@@ -131,6 +138,7 @@ function latestInsered()
     return $row['title'];
 }
 
+// function to get the oldest record
 function olderRecord()
 {
     global $pdo;
@@ -141,6 +149,7 @@ function olderRecord()
     return $row['year'];
 }
 
+// function to get the newest record
 function newestRecord()
 {
     global $pdo;

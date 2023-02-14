@@ -17,5 +17,6 @@ $dsn = "$type:host=$server;dbname=$db;port=$port;charset=$charset";
 try {
     $pdo = new PDO($dsn, $username, $password, $options);
 } catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
     throw new PDOException($e->getMessage(), $e->getCode());
 }

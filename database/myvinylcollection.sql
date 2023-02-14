@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Feb 11, 2023 alle 16:16
+-- Creato il: Feb 14, 2023 alle 10:50
 -- Versione del server: 10.4.24-MariaDB
 -- Versione PHP: 8.0.19
 
@@ -63,7 +63,8 @@ INSERT INTO `artists` (`id`, `name`) VALUES
 (24, 'The rolling stones'),
 (25, 'The smiths'),
 (26, 'Opus Kink'),
-(27, 'Ernia');
+(27, 'Ernia'),
+(28, 'Natt');
 
 -- --------------------------------------------------------
 
@@ -140,7 +141,6 @@ INSERT INTO `records` (`id`, `title`, `artist`, `label`, `year`, `insert_date`, 
 (21, 'The final cut', 1, 8, 1983, '2023-02-04 11:37:15', '1', '1', 1, 1, '2016 Reissue', 'Rock', 13),
 (22, 'Wish You Were Here', 1, 8, 1975, '2023-02-04 11:45:12', '1', '1', 1, 1, '2016 Reissue', 'Rock', 5),
 (23, 'Voyage 34: the complete trip', 4, 4, 1992, '2023-02-04 11:51:02', '1', '1', 1, 1, 'Edizione in vinile dell\'edizione in cd originale del 1992 rimasterizzata nel 2010', 'Rock psicadelico', 4),
-(24, 'Tubular bells', 7, 9, 1973, '2023-02-04 11:57:20', '2', '4', 1, 1, '', 'Prog', 2),
 (25, 'Origin of symmetry (XX anniversary remixx)', 2, 2, 2021, '2023-02-04 12:00:52', '1', '2', 1, 1, 'Edizione rimasterizzata e remix dell\'originale del 2001 con traccia \"Futurism\" non presente nell\'edizione originale', 'Rock', 12),
 (26, 'Will of the people', 2, 2, 2022, '2023-02-08 09:20:38', '1', '2', 1, 1, 'Edizione limitata gatefold red+black marble', 'Rock', 10),
 (27, 'Drones', 2, 2, 2015, '2023-02-08 11:53:41', '1', '2', 1, 1, '', 'Rock', 12),
@@ -156,7 +156,7 @@ INSERT INTO `records` (`id`, `title`, `artist`, `label`, `year`, `insert_date`, 
 (37, 'Rimmel', 16, 15, 1975, '2023-02-08 12:16:25', '3', '4', 1, 1, '', 'Rock', 9),
 (38, 'Maggot brain', 17, 16, 1971, '2023-02-08 12:17:37', '1', '1', 1, 1, '', 'Funk', 7),
 (39, 'Crazy nights', 18, 17, 1987, '2023-02-08 12:18:09', '3', '4', 1, 1, '', 'Rock', 11),
-(40, 'Led zeppelin II', 19, 18, 0, '2023-02-08 12:19:48', '3', '3', 1, 1, '', 'Rock', 9),
+(40, 'Led Zeppelin II', 19, 18, 1969, '2023-02-08 12:19:48', '3', '3', 1, 1, '', 'Rock', 9),
 (41, 'Led zeppelin IV', 19, 18, 1983, '2023-02-08 12:20:16', '3', '3', 1, 1, '', 'Rock', 8),
 (42, 'Il mio canto libero', 20, 19, 1972, '2023-02-08 12:21:06', '4', '4', 1, 1, '', 'Pop', 8),
 (43, 'Il nostro caro angelo', 20, 19, 1973, '2023-02-08 12:21:32', '3', '3', 1, 1, '', 'Pop', 8),
@@ -172,7 +172,8 @@ INSERT INTO `records` (`id`, `title`, `artist`, `label`, `year`, `insert_date`, 
 (54, 'Big Hits (High Tide and Green Grass)', 24, 26, 1966, '2023-02-08 12:30:02', '5', '4', 1, 1, 'Segni di carta incollata al disco rendono la riproduzione di due tracce (una per lato) impossibile. NON RIPRODURRE', 'Rock', 14),
 (55, 'The Queen Is Dead', 25, 2, 1985, '2023-02-08 12:30:42', '1', '1', 1, 1, '', 'Pop', 10),
 (57, 'Animals (2018 Remix)', 1, 8, 2022, '2023-02-08 14:37:07', '1', '1', 1, 1, '', 'Rock', 5),
-(61, '\'Til The Stream Runs Dry', 26, 27, 2022, '2023-02-10 12:35:27', '1', '1', 1, 1, '', 'Garage', 7);
+(61, '\'Til The Stream Runs Dry', 26, 27, 2022, '2023-02-10 12:35:27', '1', '1', 1, 1, '', 'Garage', 7),
+(64, 'Tubular Bells', 7, 9, 1973, '2023-02-14 09:35:10', '3', '4', 1, 1, '', 'Rock', 2);
 
 -- --------------------------------------------------------
 
@@ -238,8 +239,6 @@ INSERT INTO `songs` (`id`, `title`, `artist`, `duration`, `records`) VALUES
 (101, 'Herd culling', 4, '7:02', 51),
 (102, 'Walk the plank', 4, '4:26', 51),
 (103, 'Chimera\'s wreck', 4, '9:40', 51),
-(106, 'Side 1', 7, '25:00', 24),
-(107, 'Side 2', 7, '17:30', 24),
 (108, 'Have you seen your mother standing in the shadow?', 24, '', 54),
 (109, 'Paint it, black', 24, '', 54),
 (110, 'It\'s all over now', 24, '', 54),
@@ -605,7 +604,9 @@ INSERT INTO `songs` (`id`, `title`, `artist`, `duration`, `records`) VALUES
 (479, 'Welcome To The Machine', 1, '4:53', 22),
 (480, 'Have A Cigar', 1, '5:40', 22),
 (481, 'Wish You Were Here', 1, '5:34', 22),
-(482, 'Shine On Your Crazy Diamond (parts 6-9)', 1, '12:31', 22);
+(482, 'Shine On Your Crazy Diamond (parts 6-9)', 1, '12:31', 22),
+(492, 'Side 1', 7, '25:00', 64),
+(493, 'Side 2', 7, '17:30', 64);
 
 --
 -- Indici per le tabelle scaricate
@@ -647,7 +648,7 @@ ALTER TABLE `songs`
 -- AUTO_INCREMENT per la tabella `artists`
 --
 ALTER TABLE `artists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT per la tabella `labels`
@@ -659,13 +660,13 @@ ALTER TABLE `labels`
 -- AUTO_INCREMENT per la tabella `records`
 --
 ALTER TABLE `records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT per la tabella `songs`
 --
 ALTER TABLE `songs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=483;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=494;
 
 --
 -- Limiti per le tabelle scaricate

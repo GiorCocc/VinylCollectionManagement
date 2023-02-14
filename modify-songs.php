@@ -3,12 +3,10 @@ require_once 'database-connection.php';
 require_once 'functions.php';
 require_once 'lastfm-api.php';
 
-
-
 $numberOfSongs = $_GET['numberOfSongs'];
 $artistId = $_GET['artistId'];
 $recordId = $_GET['recordId'];
-$storedSongs = countSongs($recordId, $artistId);
+$storedSongs = getNumberOfSongs($recordId, $artistId);
 
 if (isset($_POST['submit'])) {
   for ($i = 1; $i <= $numberOfSongs; $i++) {
@@ -16,7 +14,7 @@ if (isset($_POST['submit'])) {
     $songDuration = $_POST['duration' . $i];
     $songId = getSongsId($recordId, $artistId)[$i - 1]['id'];
 
-    if(!updateSong($songId, $songTitle, $songDuration, $recordId, $artistId)) {
+    if (!updateSong($songId, $songTitle, $songDuration, $recordId, $artistId)) {
       if ($numberOfSongs > $storedSongs['COUNT(*)'])
         addSong($songTitle, $songDuration, $recordId, $artistId);
     }
@@ -24,13 +22,10 @@ if (isset($_POST['submit'])) {
   header('Location: record.php?recordId=' . $recordId);
 }
 
-
-
-
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
   <meta charset="UTF-8">
@@ -56,7 +51,7 @@ if (isset($_POST['submit'])) {
                   $artist_id = $_GET['artistId'];
                   $record_id = $_GET['recordId'];
                   $artist_name = getArtistName($artist_id);
-                  $record_name = getAlbumNameById($record_id);
+                  $record_name = getRecordName($record_id);
                   echo '<div class="relative m-auto flex items-end overflow-hidden rounded-xl">';
                   echo getAlbum($artist_name, $record_name, 4);
                   echo '</div>';

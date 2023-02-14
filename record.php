@@ -1,7 +1,4 @@
-<!-- View data of the selected record -->
-
 <?php
-// include 'header.php';
 include 'database-connection.php';
 include 'functions.php';
 include 'index-functions.php';
@@ -35,14 +32,12 @@ $numberOfSongs = $row['numberOfSongs'];
 
 <body class="from-yellow-100 via-orange-300 to-red-500 bg-gradient-to-br">
   <?php include 'header.php' ?>
-
   <!-- component -->
   <div class='flex items-center justify-center min-h-screen'>
     <div class="p-4 items-center justify-center w-3/4 rounded-xl group sm:flex space-x-6 bg-white bg-opacity-50 shadow-xl hover:rounded-2xl">
       <div class="relative flex items-end overflow-hidden rounded-xl">
         <?php echo getAlbum(getArtistName($row['artist']), $row['title'], 4) ?>
       </div>
-      <!-- <img class="mx-auto w-full block w-4/12 h-40 rounded-lg" alt="art cover" loading="lazy" src='https://picsum.photos/seed/2/2000/1000' /> -->
       <div class="sm:w-8/12 pl-0 p-5">
         <div class="space-y-2">
           <div class="space-y-4">
@@ -50,13 +45,10 @@ $numberOfSongs = $row['numberOfSongs'];
           </div>
           <div class="flex items-center space-x-4 justify-between">
             <a class="flex gap-3 space-y-1" href="index.php?artistId=<?php echo $row['artist'] ?>">
-              <!-- TODO: fare in modo di mostrare la foto dell'artista -->
               <div class="rounded-full my-auto h-8 w-8">
-
                 <?php echo getArtistPhoto(getArtistName($row['artist']), 3);
                 ?>
               </div>
-              <!-- <img src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" class="rounded-full h-8 w-8" /> -->
               <span class="text-sm">
                 <?php echo '<p class="text-gray-900 font-semibold">' . getArtistName($row['artist']) . '</p>' ?>
                 <p class="text-gray-500">
@@ -97,12 +89,9 @@ $numberOfSongs = $row['numberOfSongs'];
                 </span>
               </div>
               <div class="text-center text-md justify-center items-center flex">
-
-
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M10.75 15.2q.475.45 1.2.413.725-.038 1.075-.513l5.25-7.325-7.375 5.2q-.5.35-.55 1.05-.05.7.4 1.175ZM12 5q1.375 0 2.512.338 1.138.337 2.263 1.012l-.925.625q-.875-.475-1.825-.725T12 6Q8.675 6 6.338 8.337 4 10.675 4 14q0 1.05.287 2.075Q4.575 17.1 5.1 18h13.8q.575-.95.838-1.975Q20 15 20 13.9q0-.9-.237-1.9-.238-1-.738-1.85l.625-.925q.75 1.25 1.05 2.362.3 1.113.3 2.313 0 1.275-.288 2.4-.287 1.125-.912 2.25-.125.2-.362.325Q19.2 19 18.9 19H5.1q-.275 0-.512-.137-.238-.138-.388-.388-.5-.875-.85-1.975T3 14q0-1.85.7-3.488.7-1.637 1.913-2.862 1.212-1.225 2.862-1.937Q10.125 5 12 5Zm.05 6.95Z" />
                 </svg>
-
                 <span class="text-md mx-1">
                   <p class="text-gray-900 text-s font-semibold">
                     <?php switch ($row['speed']) {
@@ -122,12 +111,6 @@ $numberOfSongs = $row['numberOfSongs'];
             </div>
           </div>
           <div class="flex items-center space-x-4 justify-between">
-            <!-- <div class="text-grey-500 flex flex-row space-x-1  my-4">
-              <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <p class="text-xs">2 hours ago</p>
-            </div> -->
             <div class="flex flex-row space-x-1">
               <?php
               switch ($row['vinyl_condition']) {
@@ -140,31 +123,26 @@ $numberOfSongs = $row['numberOfSongs'];
                   echo "<div class=\"bg-yellow-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Near Mint</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Near Mint</p>';
                   break;
                 case 3:
                   echo "<div class=\"bg-orange-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Very Good</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Very Good</p>';
                   break;
                 case 4:
                   echo "<div class=\"bg-red-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Good</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Good</p>';
                   break;
                 case 5:
                   echo "<div class=\"bg-gray-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Fair</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Fair</p>';
                   break;
                 case 6:
                   echo "<div class=\"bg-black-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Disco: Poor</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Poor</p>';
                   break;
               }
               ?>
@@ -179,31 +157,24 @@ $numberOfSongs = $row['numberOfSongs'];
                   echo "<div class=\"bg-yellow-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Near Mint</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Near Mint</p>';
                   break;
                 case 3:
                   echo "<div class=\"bg-orange-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Very Good</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Very Good</p>';
                   break;
                 case 4:
                   echo "<div class=\"bg-red-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Good</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Good</p>';
                   break;
                 case 5:
                   echo "<div class=\"bg-black-500 text-white px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row\">";
                   echo '<span class="text-xs text-white-900 font-semibold">Copertina: Fair</span>';
                   echo "</div>";
-                  // echo '<p class="text-xs text-gray-900 font-semibold">Fair</p>';
                   break;
               }
               ?>
-
-
-
             </div>
           </div>
           <?php
@@ -229,7 +200,6 @@ $numberOfSongs = $row['numberOfSongs'];
                 </tr>
               </thead>
               <tbody>
-                <!-- Prendere tutte le canzoni salvate nella tabella songs che hanno lo stesso id dell'album visualizzato -->
                 <?php
                 $songs = getSongs($row['id']);
                 $i = 1;
@@ -246,16 +216,13 @@ $numberOfSongs = $row['numberOfSongs'];
             </table>
           <?php } ?>
         </div>
-
         <div>
-          <!-- remove button and modify button -->
           <div class="flex flex-row-reverse space-x-2 align-right mt-10">
             <div class="flex flex-row space-x-2">
               <?php
               if ($numberOfSongs != 0) {
               ?>
                 <a href="modify-songs.php?numberOfSongs=<?php echo $row['numberOfSongs'] ?>&recordId=<?php echo $row['id'] ?>&artistId=<?php echo $row['artist'] ?>" class="bg-orange-500 shadow-lg shadow- shadow-orange-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-
                   <svg stroke="currentColor" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                     <path d="M11.5 18.5v-6h-6v-1h6v-6h1v6h6v1h-6v6Z" />
                   </svg>
@@ -268,58 +235,45 @@ $numberOfSongs = $row['numberOfSongs'];
                 </svg>
                 <p class="text-s">Modificare</p>
               </a>
-              <!-- Pulsante "Elimina" per rimuovere l'elemento dal database -->
               <a href="delete-record.php?<?php echo 'recordId=' . $row['id'] ?>" class="bg-red-500 shadow-lg shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                <!-- Trashcan icon -->
                 <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                   <path d="M7.625 20q-.675 0-1.15-.475Q6 19.05 6 18.375V6H5V5h4v-.775h6V5h4v1h-1v12.375q0 .7-.462 1.163-.463.462-1.163.462ZM17 6H7v12.375q0 .275.175.45t.45.175h8.75q.25 0 .437-.188.188-.187.188-.437ZM9.8 17h1V8h-1Zm3.4 0h1V8h-1ZM7 6v13-.625Z" />
                 </svg>
-
                 <p class="text-s">Eliminare</p>
               </a>
-
             </div>
-            <!-- <div class="flex flex-row space-x-2">
-                <div class="bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                  <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <p class="text-xs">
-
-                </div>
-              </div> -->
           </div>
         </div>
-
       </div>
       <div>
-        <h2 class="text-xl font-bold text-gray-900">
-          Altri album dell'artista
-        </h2>
-        <div class="flex flex-col max-h-96 overflow-auto overflow-auto max-h-30 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <?php
+        global $pdo;
+        $stmt = $pdo->prepare("SELECT * FROM records WHERE artist = :artistId");
+        $stmt->execute(['artistId' => $row['artist']]);
+        $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (count($records) > 1) {
+        ?>
+          <h2 class="text-xl font-bold text-gray-900">
+            Altri album dell'artista
+          </h2>
+          <div class="flex flex-col max-h-96 overflow-auto overflow-auto max-h-30 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+            <?php
+            foreach ($records as $row) {
+            ?>
+              <article class="rounded-xl bg-white bg-opacity-50 shadow-xl hover:rounded-2xl p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
+                <a href="record.php?recordId=<?php echo $row['id'] ?>" title="<?php echo $row['title'] ?>">
+                  <div class="relative flex items-end overflow-hidden rounded-xl">
+                    <?php echo getAlbum(getArtistName($row['artist']), $row['title'], 2); ?>
+                  </div>
+                </a>
+              </article>
           <?php
-          // get all the records of the artist
-          global $pdo;
-          $stmt = $pdo->prepare("SELECT * FROM records WHERE artist = :artistId");
-          $stmt->execute(['artistId' => $row['artist']]);
-          $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
-          foreach ($records as $row) {
-          ?>
-            <article class="rounded-xl bg-white bg-opacity-50 shadow-xl hover:rounded-2xl p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 ">
-              <a href="record.php?recordId=<?php echo $row['id'] ?>" title="<?php echo $row['title'] ?>">
-                <div class="relative flex items-end overflow-hidden rounded-xl">
-                  <?php echo getAlbum(getArtistName($row['artist']), $row['title'], 2); ?>
-                </div>
-              </a>
-            </article>
-          <?php
-            $i++;
+            }
           }
           ?>
-        </div>
+          </div>
       </div>
     </div>
-
   </div>
   <?php include 'footer.php'; ?>
 </body>

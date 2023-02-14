@@ -1,12 +1,3 @@
-<!--Website to Manage a vinyl record collection-->
-
-<!--This is the main page. It will display all the record stored in the database, with the artwork, the title, the author
-and the year of release. On top of the page, there is a searchbar that allow to find a record by its name, year, artist and songs
-The project is styled using Tailwindcss and connect to a XAMPP database.-->
-
-<!-- TODO: modificare i nomi degli elementi nel database in modo che siano capitalize -->
-<!-- TODO: modificare quando vengono inseriti dei dati in modo che questi vengano salvati come capitalize -->
-
 <?php
 require_once 'database-connection.php';
 require_once 'index-functions.php';
@@ -24,7 +15,7 @@ if (empty($param) || $param == ' ' || $param == '') {
   $possibleSteps = ceil(getAmountRecords($stmt) / 10);
 }
 
-if(!empty($artistId)) {
+if (!empty($artistId)) {
   $sql = 'SELECT * FROM records WHERE artist = ?';
   $stmt = $pdo->prepare($sql);
   $stmt->execute([$artistId]);
@@ -179,7 +170,7 @@ if (isset($_GET['submit'])) {
         ?>
       </div>
       <div class="flex justify-center mt-5 gap-10">
-        <!-- Bottone per tornare indietro -->
+        <!-- Prev button -->
         <?php
         if ($click > 0) {
           echo '<a href="index.php?click=' . ($click - 1) . '&param=' . $param . '&order=' . $orderOption . '" class="flex justify-center mt-5">'; ?>
@@ -191,7 +182,7 @@ if (isset($_GET['submit'])) {
           </a>
         <?php }
         ?>
-        <!-- Bottone per andare avanti -->
+        <!-- Next button -->
         <?php
         if ($click < $possibleSteps - 1) {
           echo '<a href="index.php?click=' . ($click + 1) . '&param=' . $param . '&order=' . $orderOption . '" class="flex flex row justify-center mt-5">'; ?>
