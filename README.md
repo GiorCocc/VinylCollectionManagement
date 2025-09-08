@@ -82,43 +82,49 @@ The application uses a **MySQL database** with **4 interconnected tables** desig
 
 ### 📊 Database Tables
 
-#### 📀 `records` - Core Album Information
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | INT(11) AUTO_INCREMENT | 🔑 Primary key |
-| `title` | VARCHAR(255) | 📝 Album title *(required)* |
-| `artist` | INT(11) | 👤 Foreign key to artists table *(required)* |
-| `label` | INT(11) | 🏢 Foreign key to labels table *(optional)* |
-| `year` | INT(11) | 📅 Release year *(optional)* |
-| `insert_date` | DATETIME | ⏰ Record creation timestamp |
-| `vinyl_condition` | VARCHAR(3) | 💿 Vinyl condition grade *(optional)* |
-| `sleeve_condition` | VARCHAR(3) | 📦 Sleeve condition grade *(optional)* |
-| `format` | INT(2) | 📏 Record size (7", 10", 12") *(optional)* |
-| `speed` | INT(2) | 🔄 Playback speed (33, 45, 78 RPM) *(optional)* |
-| `notes` | TEXT | 📝 Personal notes *(optional)* |
-| `genre` | VARCHAR(256) | 🎵 Music genre *(required)* |
-| `numberOfSongs` | INT(11) | 🎵 Track count *(required)* |
+```sql
+CREATE TABLE `artists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-#### 👤 `artists` - Artist Information
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | INT(11) AUTO_INCREMENT | 🔑 Primary key |
-| `name` | VARCHAR(255) | 👤 Artist name *(required)* |
+CREATE TABLE `labels` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-#### 🎵 `songs` - Track Listings
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | INT(11) AUTO_INCREMENT | 🔑 Primary key |
-| `title` | VARCHAR(255) | 🎵 Song title *(required)* |
-| `artist` | INT(11) | 👤 Foreign key to artists table *(required)* |
-| `duration` | VARCHAR(11) | ⏱️ Track duration *(optional)* |
-| `records` | INT(11) | 📀 Foreign key to records table *(optional)* |
+CREATE TABLE `records` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `artist` int(11) NOT NULL,
+  `label` int(11) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `insert_date` datetime DEFAULT current_timestamp(),
+  `vinyl_condition` varchar(3) DEFAULT NULL,
+  `sleeve_condition` varchar(3) DEFAULT NULL,
+  `format` int(2) DEFAULT NULL,
+  `speed` int(2) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `genre` varchar(256) NOT NULL,
+  `numberOfSongs` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`artist`) REFERENCES `artists` (`id`),
+  FOREIGN KEY (`label`) REFERENCES `labels` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-#### 🏢 `labels` - Record Labels
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | INT(11) AUTO_INCREMENT | 🔑 Primary key |
-| `name` | VARCHAR(255) | 🏢 Label name *(required)* |
+CREATE TABLE `songs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `artist` int(11) NOT NULL,
+  `duration` varchar(11) DEFAULT NULL,
+  `records` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`artist`) REFERENCES `artists` (`id`),
+  FOREIGN KEY (`records`) REFERENCES `records` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
 
 ### 🔗 Relationships
 
