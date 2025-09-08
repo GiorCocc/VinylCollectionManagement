@@ -1,76 +1,86 @@
-# Vinyl Collection
+# 🎵 Vinyl Collection Management
 
-Sito web per la gestione della propria collezione di vinili realizzato come progetto conclusivo del corso di Basi di Dati e Web dell'Università degli studi di Parma tenuto dal professor S.Cagnoni. Il sito è stato realizzato in linguaggio **PHP** e utilizza un server **MySQL** gestito tramite phpMyAdmin presente in locale per la gestione dei dati.
+> A comprehensive web application for managing your personal vinyl record collection 
 
-Il sito vuole gestire una base dati contenente i dati relativi alla propria **collezione di dischi in vinile**. Nel sito è possibile vedere tutti i vinili presenti nella collezione, cercarli per artista, titolo, anno di uscita e per canzoni presenti nel disco. È possibile anche inserire nuovi vinili e modificare i dati di quelli già presenti.
+[![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net/)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://mysql.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-## Architettura
+This web application was developed as a final project for the Database and Web course at the University of Parma, supervised by Professor S. Cagnoni. Built with **PHP** and **MySQL**, this platform provides a complete solution for vinyl enthusiasts to catalog, search, and manage their record collections.
 
-Il sito è composto da 3 pagine principali:
+## 🌟 Features
 
-- `index.php`: pagina principale del sito, contiene un form per la **ricerca** dei vinili, un link per l'accesso alla pagina di **inserimento** di un nuovo vinile e la visualizzazione di tutto il catalogo. Per effettuare una ricerca occorre inserire nel campo del form il titolo dell'album, l'artista, l'anno di pubblicazione o il nome di una canzone; se non viene inserito nulla, verranno mostrati tutti i vinili presenti nella collezione. Essendo la collezione molto ampia, la visualizzazione della lista dei vinili è **paginata** e ogni pagina mostra 10 vinili alla volta. Ogni vinile presente nella lista è un link che porta alla pagina di **dettaglio** del vinile. La pagina è mossa da due parametri:
+- 📀 **Complete Vinyl Management**: View, add, modify, and delete vinyl records from your collection
+- 🔍 **Advanced Search**: Search by artist, album title, release year, or individual track names
+- 🎤 **Artist Integration**: Fetch artist photos and album artwork using the Last.fm API
+- 📊 **Detailed Records**: Store comprehensive information including condition ratings, formats, and personal notes
+- 🎵 **Track Listings**: Manage complete tracklists with duration for each song
+- 📱 **Responsive Design**: Modern UI built with Tailwind CSS for optimal viewing on any device
+- 📄 **Paginated Results**: Efficiently browse large collections with 10 records per page
 
-  - `click`: **numero della pagina da visualizzare**, se non viene specificato nessun parametro, viene mostrata la prima pagina con i primi 10 dischi. Viene anche usato per la navigazione tra le pagine.
-  - `param`: **parametro di ricerca**, se non viene specificato nessun parametro, viene mostrata la lista completa dei vinili.
-  - `order`: **parametro per l'ordinamento dei risultati proposti**. Se 0, il catalogo viene ordinato per titolo, se 1, il catalogo viene ordinato per artista, se 2, il catalogo viene ordinato per anno di pubblicazione.
+## 🏗️ Architecture
 
-- `record.php`: pagina che mostra i **dettagli** di un vinile, permette di **modificarne i dati** e di **cancellarlo**. Per ogni vinile vengono mostrati il titolo dell'album, l'artista, l'anno di pubblicazione, il genere, il formato del disco (12", 10", 7"), la velocità di riproduzione (33, 45, 78), e le condizioni del disco e della copertina secondo le specifiche di [Discogs](https://support.discogs.com/hc/en-us/articles/360001566193-How-To-Grade-Items) ed eventuali note inserite in fase di registrazione del disco; sotto i dettagli del vinile, se presenti, vengono inserite le canzoni presenti nel disco. Per ogni canzone viene mostrato il titolo e la durata.
-  
-  Per modificare i dati del vinile occorre cliccare sul pulsante "Modifica" presente in fondo alla pagina mentre per cancellare il vinile occorre cliccare sul pulsante "Cancella". La modifica del disco permette di inserire tutti i dati mancanti e modificare quelli già presenti; in questa fase, qualora non è stato indicato il numero delle tracce, è possibile inserirne il numero per poi passare alla pagina di inserimento delle canzoni `add-songs.php`. Quando si modifica il il numero delle tracce, se viene inserito un nuovemo maggiore di quello precedente, verranno aggiunte le canzoni mancanti, se invece viene inserito un numero minore, verranno eliminate tutte le canzoni presenti e si dovranno inserire nuovamente tutte e canzoni.
+The application consists of **3 main pages** that provide comprehensive vinyl management functionality:
 
-  > <u>La cancellazione del vinile è una operazione irreversibile</u>, una volta confermata la cancellazione, il vinile verrà eliminato dal database e non sarà più possibile recuperarlo. Verranno rimosse anche le canzoni associate al vinile.
+### 📋 Main Pages
 
-  Per poter visualizzare i dettagli di un vinile è necessario passare come parametro l'id del vinile.
+#### 🏠 `index.php` - Collection Dashboard
+The main page featuring:
+- 🔍 **Search functionality** for albums by title, artist, release year, or track names
+- ➕ **Quick add** button for new vinyl records
+- 📊 **Complete catalog display** with pagination (10 records per page)
+- 🔗 **Clickable records** that navigate to detailed views
+- 🔄 **Sorting options** by title, artist, or release year
 
-- `add-record.php`: pagina che permette di **inserire un nuovo vinile**. Per ogni disco è possibile inserire il titolo, l'artista, l'anno di pubblicazione, il genere, il formato del disco (12", 10", 7"), la velocità di riproduzione (33, 45, 78), e le condizioni del disco e della copertina secondo le specifiche di [Discogs](https://support.discogs.com/hc/en-us/articles/360001566193-How-To-Grade-Items). Per ogni canzone è possibile inserire il titolo e la durata. Per inserire le canzoni occorre cliccare sul pulsante "Aggiungi canzoni" presente in fondo alla pagina, verrà aperta una nuova pagina `add-songs.php` che permette di inserire i dati di ogni singola canzone.
+**URL Parameters:**
+- `click`: Page number for pagination navigation
+- `param`: Search query parameter
+- `order`: Sort order (0=title, 1=artist, 2=year)
 
-Gli altri file presenti nella cartella principale sono:
+#### 📀 `record.php` - Detailed Record View
+Comprehensive record management page displaying:
+- 📝 **Complete album information** (title, artist, year, genre)
+- 💿 **Physical details** (format: 12"/10"/7", speed: 33/45/78 RPM)
+- ⭐ **Condition ratings** for both record and sleeve (following [Discogs standards](https://support.discogs.com/hc/en-us/articles/360001566193-How-To-Grade-Items))
+- 📝 **Personal notes** and observations
+- 🎵 **Complete tracklist** with song titles and durations
 
-- `database-connection.php`: file che contiene le credenziali per la connessione al database e la funzione per la connessione al database.
-- `functions.php`: file che contiene tutte le funzioni e query utilizzate nel sito.
-- `index-functions.php`: file che contiene le funzioni impiegate nella pagina principale per la modifica del titolo della pagina, per la gestione della ricerca e degli ordinamenti.
-- `lastfm-api.php`: file che contiene la funzione per la ricerca di un artista su Last.fm e la funzione per la ricerca di un album su Last.fm.
-- `modify-record.php` e `modify-songs.php`: pagine per la modifica del disco e per la modifica delle canzoni (ricalcano le pagine `add-record.php` e `add-songs.php` rispettivamente)
-- `delete-record.php`: file che contiene la funzione per la cancellazione di un vinile e delle canzoni associate al vinile.
-- `header.php`: file che contiene il codice per la creazione dell'header della pagina.
-- `footer.php`: file che contiene il codice per la creazione del footer.
+**Actions available:**
+- ✏️ **Edit record** - Modify any existing information
+- 🗑️ **Delete record** - Permanently remove from collection
+- 🎵 **Manage tracks** - Add, edit, or remove individual songs
 
-Per ottenere la foto degli artisti e gli artwork si utilizza l'API di Last.fm (occorre inserire la propria API key nel file `lastfm-api.php` accanto ad ogni url delle richieste). La parte grafica è stata realizzata utilizzando il framework [Tailwind CSS](https://tailwindcss.com/).
+> ⚠️ **Warning**: Record deletion is irreversible and will also remove all associated tracks.
 
-## Database
+#### ➕ `add-record.php` - Add New Records
+User-friendly form for adding new vinyl records with:
+- 📝 **Album information** input fields
+- 📊 **Condition assessment** dropdowns
+- 🎵 **Track management** integration
+- 🔗 **Last.fm integration** for artwork and artist data
 
-Il database contiene le informazioni relative al singolo disco, dell'artista, delle canzoni e delle etichette discografiche. Il database è composto da 4 tabelle:
+### 🔧 Supporting Files
 
-- `records`: contiene i dati relativi al disco. Ogni disco è caratterizzato da un identificativo, il titolo, l'artista, l'anno di pubblicazione, il genere, il formato del disco (12", 10", 7"), la velocità di riproduzione (33, 45, 78), e le condizioni del disco e della copertina, la casa discografica, e il numero di tracce presenti nel disco. Contiene anche un campo per l'inserimento delle note personali riguardanti il disco. Per ogni disco è possibile inserire un solo artista e una sola etichetta discografica, ma deve prevedere che vi siano più canzoni associate. Ogni disco deve necessariamente contenere un identificativo, un titolo e un artista; tutti gli altri campi possono essere lasciati vuoti e riempiti in seguito.
-- `artists`: contiene i dati relativi all'artista. Ogni artista è caratterizzato da un identificativo e da un nome. Ogni artista deve necessariamente contenere un identificativo e un nome.
-- `songs`: contiene i dati relativi alle canzoni. Ogni canzone è caratterizzata da un identificativo, il titolo, la durata e l'identificativo del disco a cui è associata e l'identificativo dell'artista.
-- `labels`: contiene i dati relativi alle etichette discografiche. Ogni etichetta discografica è caratterizzata da un identificativo e da un nome.
+| File | Purpose |
+|------|---------|
+| `database-connection.php` | 🔌 Database credentials and connection functions |
+| `functions.php` | 🛠️ Core application functions and SQL queries |
+| `index-functions.php` | 🏠 Homepage-specific utilities for search and sorting |
+| `lastfm-api.php` | 🎨 Last.fm API integration for artist photos and artwork |
+| `modify-record.php` / `modify-songs.php` | ✏️ Record and track editing interfaces |
+| `delete-record.php` | 🗑️ Safe record deletion functionality |
+| `header.php` / `footer.php` | 🎨 Reusable page layout components |
 
-Un possibile schema è il seguente:
+### 🎨 Design & APIs
 
-![Schema del database](./resources/Documentazione/Schema.png)
+- **UI Framework**: [Tailwind CSS](https://tailwindcss.com/) for modern, responsive design
+- **External API**: [Last.fm API](https://www.last.fm/api) for artist photos and album artwork
 
-L'attributo "condizione" presente nell'entità "record" può essere scorporato in due sotto-attributi che rappresentano la condizione del disco e della copertina. Questa scelta è stata fatta per facilitare la descrizione del disco in maggiore dettaglio.
+## 🗄️ Database Schema
 
-### Schema logico
+The application uses a **MySQL database** with **4 interconnected tables** designed to efficiently store and manage vinyl record information:
 
-Lo schema logico del database è il seguente:
-
-$$
-\begin{align*}
-&\textbf{Record}(\underline{id}, titolo, idArtista, genere, formato, velocità, condizioneDisco, condizioneCopertina, idEtichetta, note, numeroTracce)\\
-&\textbf{Artista}(\underline{id}, nome)\\
-&\textbf{Canzone}(\underline{id}, titolo, durata, idRecord, idArtista)\\
-&\textbf{Etichetta}(\underline{id}, nome)\\
-&\textbf{Prodotto}(idArtista, idCanzone, idRecord)\\
-&\textbf{Contiene}(idCanzone, idRecord)\\
-&\textbf{Finanziato}(idRecord, idEtichetta)\\
-\end{align*}
-$$
-
-### Schema fisico
-
-Lo schema fisico del database, da ricreare poi nel software di gestione del database MySQL, è il seguente:
+### 📊 Database Tables
 
 ```sql
 CREATE TABLE `artists` (
@@ -116,20 +126,240 @@ CREATE TABLE `songs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
-Per semplificare la gestione del database, è stato creato un file `database.sql` che contiene tutti i comandi per creare il database e le tabelle. Il file è presente nella cartella `database` del progetto. Se si vuole invece utilizzare un sistema che contiene già dei dati, si può utilizzare il file `myvinylcollection.sql` che contiene i dati di esempio.
+### 🔗 Relationships
 
-## Installazione
+- **One-to-Many**: Each artist can have multiple records and songs
+- **One-to-Many**: Each record can have multiple songs
+- **One-to-Many**: Each label can publish multiple records
+- **Many-to-One**: Each record belongs to one artist and one label
 
-Per installare il progetto è necessario avviare un server web e un server MySQL. Per avviare il server web e MySQL è possibile utilizzare [XAMPP](https://www.apachefriends.org/it/index.html). Una volta avviato il server, è necessario creare un database e importare il file `database.sql` presente nella cartella `database` del progetto. Per importare il database è necessario utilizzare il comando
+![Database Schema](./resources/Documentazione/Schema.png)
 
-```shell
-mysql -u username -p database_name < database.sql
-```
+### 💾 Database Setup Files
 
-da terminale. Una volta importato il database, è necessario modificare il file `database-connection.php` presente nella cartella principale del progetto, inserendo le credenziali per la connessione al database e il nome della tabella creata.
+The `database/` directory contains setup scripts:
 
-Per poter utilizzare la funzione di ricerca di un artista e degli artwork su Last.fm è necessario creare un account su [Last.fm](https://www.last.fm/it) e generare una [API key](https://www.last.fm/api/account/create). Una volta generata l'API key, è necessario inserirla nel file `lastfm-api.php` presente nella cartella principale del progetto (ad ogni richiesta deve essere associata la secret key).
+- 📁 `database.sql` - **Fresh installation** with empty tables
+- 📁 `myvinylcollection.sql` - **Sample data** for testing and demonstration
 
-## Utilizzo
+## 🛠️ Tech Stack
 
-Per poter utilizzare il portale, occorre recarsi nella pagina `index.php` dal browser per poter visualizzare la propria collezione.
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Backend** | ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat&logo=php&logoColor=white) PHP | Server-side logic and database operations |
+| **Database** | ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white) MySQL | Data persistence and management |
+| **Frontend** | ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white) Tailwind CSS | Responsive UI design |
+| **API Integration** | ![Last.fm](https://img.shields.io/badge/Last.fm-D51007?style=flat&logo=last.fm&logoColor=white) Last.fm API | Artist photos and album artwork |
+| **Database Management** | ![phpMyAdmin](https://img.shields.io/badge/phpMyAdmin-6C78AF?style=flat&logo=phpmyadmin&logoColor=white) phpMyAdmin | Database administration interface |
+
+## 📋 Requirements
+
+### 🖥️ System Requirements
+
+- **Web Server**: Apache or Nginx
+- **PHP**: Version 7.4 or higher
+- **Database**: MySQL 5.7+ or MariaDB 10.2+
+- **Extensions**: PDO MySQL extension enabled
+
+### 🌐 Recommended Environment
+
+For local development, we recommend using:
+
+- **[XAMPP](https://www.apachefriends.org/)** - Complete development environment
+- **[WAMP](http://www.wampserver.com/)** (Windows) - Alternative stack solution
+- **[MAMP](https://www.mamp.info/)** (macOS) - Mac-specific solution
+
+### 🔑 External Services
+
+- **[Last.fm API Account](https://www.last.fm/api/account/create)** - Required for artist photos and album artwork
+
+## 🚀 Installation
+
+### 📥 Step 1: Download & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/GiorCocc/VinylCollectionManagement.git
+   cd VinylCollectionManagement
+   ```
+
+2. **Place in web server directory:**
+   - **XAMPP**: Copy to `htdocs/vinyl-collection/`
+   - **WAMP**: Copy to `www/vinyl-collection/`
+   - **MAMP**: Copy to `htdocs/vinyl-collection/`
+
+### 🗄️ Step 2: Database Setup
+
+1. **Start your web server and MySQL**
+
+2. **Create database using phpMyAdmin:**
+   - Open [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
+   - Create a new database (e.g., `vinyl_collection`)
+
+3. **Import database structure:**
+   ```bash
+   # For fresh installation
+   mysql -u username -p database_name < database/database.sql
+   
+   # For installation with sample data
+   mysql -u username -p database_name < database/myvinylcollection.sql
+   ```
+
+   Or use phpMyAdmin:
+   - Select your database
+   - Go to "Import" tab
+   - Choose `database/database.sql` file
+   - Click "Go"
+
+### ⚙️ Step 3: Configuration
+
+1. **Configure database connection:**
+   
+   Edit `database-connection.php`:
+   ```php
+   <?php
+   $host = 'localhost';        // Database host
+   $dbname = 'your_database';  // Your database name
+   $username = 'your_user';    // Database username
+   $password = 'your_pass';    // Database password
+   ?>
+   ```
+
+2. **Setup Last.fm API (Optional but recommended):**
+   
+   - Create account at [Last.fm](https://www.last.fm/api/account/create)
+   - Get your API key and secret
+   - Edit `lastfm-api.php` and add your API key to each request URL:
+   ```php
+   $api_key = 'YOUR_API_KEY_HERE';
+   ```
+
+### 🎯 Step 4: Access Application
+
+Visit [http://localhost/vinyl-collection/index.php](http://localhost/vinyl-collection/index.php) in your web browser.
+
+## 📱 Usage
+
+### 🏠 Getting Started
+
+1. **Access the main page** at `index.php`
+2. **Browse your collection** or use the search functionality
+3. **Add your first record** using the "Add New Record" button
+4. **Manage existing records** by clicking on any album in the list
+
+### 🔍 Search & Navigation
+
+- **Search by**: Artist name, album title, release year, or song title
+- **Sort results**: By title, artist, or release year
+- **Pagination**: Browse large collections with 10 records per page
+
+### ➕ Adding Records
+
+1. Click "Add New Record" button
+2. Fill in album information (title and artist are required)
+3. Set condition grades using Discogs standards
+4. Add personal notes if desired
+5. Save and optionally add track listings
+
+### ✏️ Managing Records
+
+### ✏️ Managing Records
+
+- **View details**: Click on any record to see complete information
+- **Edit**: Use the "Edit" button on the record detail page
+- **Delete**: Use the "Delete" button (⚠️ irreversible action)
+- **Manage tracks**: Add, edit, or remove individual songs
+
+## 🤝 Contributing
+
+We welcome contributions to improve the Vinyl Collection Management system! Here's how you can help:
+
+### 🛠️ Development Setup
+
+1. **Fork the repository** on GitHub
+2. **Clone your fork** locally:
+   ```bash
+   git clone https://github.com/your-username/VinylCollectionManagement.git
+   ```
+3. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+4. **Set up development environment** following the installation guide above
+
+### 📝 Contribution Guidelines
+
+- **Code Style**: Follow existing PHP and JavaScript coding patterns
+- **Database Changes**: Include migration scripts for any schema modifications
+- **Documentation**: Update README and inline comments for new features
+- **Testing**: Test thoroughly with different browsers and data scenarios
+
+### 🐛 Reporting Issues
+
+When reporting bugs, please include:
+- **Environment details** (PHP version, MySQL version, browser)
+- **Steps to reproduce** the issue
+- **Expected vs actual behavior**
+- **Screenshots** if applicable
+
+### 💡 Feature Requests
+
+Before requesting new features:
+- Check existing issues to avoid duplicates
+- Describe the problem your feature would solve
+- Provide mockups or detailed descriptions when helpful
+
+### 🔄 Pull Request Process
+
+1. **Update documentation** for any new features
+2. **Test your changes** thoroughly
+3. **Create detailed PR description** explaining your changes
+4. **Link related issues** in your PR description
+
+## 📄 License
+
+This project was created as an educational project for the Database and Web course at the University of Parma. 
+
+**Academic Use**: This code is freely available for educational and academic purposes.
+
+**Commercial Use**: Please contact the author for commercial usage permissions.
+
+## 👨‍💻 Author
+
+**Giorgio Cocchiaro**
+- 🎓 University of Parma - Database and Web Course
+- 👨‍🏫 Supervised by Professor S. Cagnoni
+
+## 🙏 Acknowledgments
+
+- **Professor S. Cagnoni** - Course supervision and guidance
+- **University of Parma** - Educational support
+- **[Last.fm](https://www.last.fm/)** - API for artist photos and album artwork
+- **[Discogs](https://www.discogs.com/)** - Condition grading standards
+- **[Tailwind CSS](https://tailwindcss.com/)** - Styling framework
+
+## 📚 Additional Resources
+
+### 🔗 Useful Links
+
+- **[Discogs Grading Guide](https://support.discogs.com/hc/en-us/articles/360001566193-How-To-Grade-Items)** - Learn about vinyl condition standards
+- **[Last.fm API Documentation](https://www.last.fm/api)** - Integrate music data
+- **[PHP Manual](https://www.php.net/manual/)** - PHP development reference
+- **[MySQL Documentation](https://dev.mysql.com/doc/)** - Database administration guide
+
+### 📖 Related Documentation
+
+- `Documentazione.pdf` - Complete Italian documentation (included in repository)
+- Database schema diagrams in `resources/Documentazione/`
+
+---
+
+<div align="center">
+
+**🎵 Happy collecting! 🎵**
+
+Made with ❤️ for vinyl enthusiasts
+
+[![GitHub](https://img.shields.io/badge/GitHub-VinylCollectionManagement-blue?style=for-the-badge&logo=github)](https://github.com/GiorCocc/VinylCollectionManagement)
+
+</div>
